@@ -1,0 +1,94 @@
+---
+title: "FA5"
+author: "Dizon, Kiana Marie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 8.18
+
+
+```{r 8.18}
+population <- c(9, 12, 15)
+samples <- expand.grid(population, population)
+
+
+xbar <- rowMeans(samples)
+p_xbar <- table(xbar) / length(xbar)
+
+
+sample_data <- data.frame(
+  "Sample A" = samples$Var1,
+  "Sample B" = samples$Var2,
+  "x̄" = xbar,
+  "p(x̄)" = p_xbar[as.character(xbar)],
+  "x̄ × p(x̄)" = xbar * p_xbar[as.character(xbar)],
+  "x̄² × p(x̄)" = (xbar^2) * p_xbar[as.character(xbar)]
+)
+
+knitr::kable(sample_data, digits = 6, caption = "Samples, Means, and Probabilities")
+```
+## Problem 8.21
+
+```{r 8.21}
+population <- c(3, 7, 11, 15)
+
+mu_pop <- mean(population)
+sigma2_pop <- var(population)
+sigma_pop <- sqrt(sigma2_pop)
+
+mu_pop
+sigma_pop
+
+```
+## Problem 8.34
+
+```{r 8.34}
+n <- 200
+p <- 0.5
+
+p_boys_40 <- pbinom(0.4 * n, n, p)
+
+
+p_girls_43_57 <- pbinom(0.57 * n, n, 1 - p) - pbinom(0.43 * n, n, 1 - p)
+
+
+p_boys_54 <- 1 - pbinom(0.54 * n, n, p)
+
+p_boys_40
+p_girls_43_57
+p_boys_54
+
+```
+## Problem 8.49
+
+```{r 8.49}
+x <- c(6, 9, 12, 15, 18)
+p_x <- c(0.1, 0.2, 0.4, 0.2, 0.1)
+
+
+mu_x <- sum(x * p_x)
+sigma2_x <- sum((x - mu_x)^2 * p_x)
+sigma_x <- sqrt(sigma2_x)
+
+mu_x
+sigma_x
+
+
+samples <- expand.grid(x, x)
+means <- rowMeans(samples)
+
+
+p_means <- apply(samples, 1, function(sample) p_x[which(x == sample[1])] * p_x[which(x == sample[2])])
+
+sample_data <- data.frame(samples, means, p_means)
+head(sample_data)
+
+```
+
+
+
